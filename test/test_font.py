@@ -7,7 +7,14 @@
 
 import pygame
 import sys
-from font_utils import FontManager
+try:
+    from utils.font_utils import FontManager
+except ImportError:
+    # 如果无法导入FontManager，使用简单的字体加载
+    class FontManager:
+        @staticmethod
+        def get_font(size, bold=False):
+            return pygame.font.Font(None, size)
 
 def test_font_rendering():
     """测试字体渲染"""

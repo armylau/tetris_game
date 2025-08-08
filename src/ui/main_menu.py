@@ -10,8 +10,9 @@ import sys
 from typing import Optional
 from level.level_selector import LevelSelector
 
+# 字体管理器导入
 try:
-    from font_utils import FontManager
+    from utils.font_utils import FontManager
 except ImportError:
     # 如果无法导入FontManager，使用简单的字体加载
     class FontManager:
@@ -39,16 +40,9 @@ class MainMenu:
             pass
         
         # 字体
-        try:
-            from utils.font_utils import FontManager
-            self.title_font = FontManager.get_font(72, bold=True)
-            self.button_font = FontManager.get_font(36)
-            self.info_font = FontManager.get_font(24)
-        except ImportError:
-            # 如果无法导入FontManager，使用简单的字体加载
-            self.title_font = pygame.font.Font(None, 72)
-            self.button_font = pygame.font.Font(None, 36)
-            self.info_font = pygame.font.Font(None, 24)
+        self.title_font = FontManager.get_font(72, bold=True)
+        self.button_font = FontManager.get_font(36)
+        self.info_font = FontManager.get_font(24)
         
         # 按钮配置
         self.buttons = [

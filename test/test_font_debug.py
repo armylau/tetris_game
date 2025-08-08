@@ -103,7 +103,7 @@ def debug_font_loading():
     # 测试FontManager
     print("\n4. 测试FontManager:")
     try:
-        from font_utils import FontManager
+        from utils.font_utils import FontManager
         font = FontManager.get_font(36)
         success_count = 0
         for text in test_texts:

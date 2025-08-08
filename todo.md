@@ -1,13 +1,15 @@
 
 
-# v0.2 
+## v0.3betterUI 
+- better ui  
+- bug - 字体导入问题修复
+
 
 
 # queue 
 
 [core]
 - add voice 
-- better ui  
 - 消除的效果
 - 用户存储 
 - 性能提升  
@@ -33,6 +35,10 @@
 
 
 # Release 
+
+# v0.2 
+- refactory 
+
 
 ## v0.1 
 - basic game : define block, scoring, 

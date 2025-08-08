@@ -11,8 +11,9 @@ from typing import Optional, Dict, List
 from level.level_manager import LevelManager
 from config.level_config import LevelConfig
 
+# 字体管理器导入
 try:
-    from font_utils import FontManager
+    from utils.font_utils import FontManager
 except ImportError:
     # 如果无法导入FontManager，使用简单的字体加载
     class FontManager:
@@ -51,16 +52,9 @@ class LevelSelector:
             pass
         
         # 字体
-        try:
-            from utils.font_utils import FontManager
-            self.title_font = FontManager.get_font(48, bold=True)
-            self.button_font = FontManager.get_font(24)
-            self.info_font = FontManager.get_font(20)
-        except ImportError:
-            # 如果无法导入FontManager，使用简单的字体加载
-            self.title_font = pygame.font.Font(None, 48)
-            self.button_font = pygame.font.Font(None, 24)
-            self.info_font = pygame.font.Font(None, 20)
+        self.title_font = FontManager.get_font(48, bold=True)
+        self.button_font = FontManager.get_font(24)
+        self.info_font = FontManager.get_font(20)
         
         # 状态
         self.selected_level = None
