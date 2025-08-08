@@ -8,8 +8,8 @@
 import pygame
 import sys
 from typing import Optional, Dict, List
-from level_manager import LevelManager
-from level_config import LevelConfig
+from level.level_manager import LevelManager
+from config.level_config import LevelConfig
 
 try:
     from font_utils import FontManager
@@ -52,7 +52,7 @@ class LevelSelector:
         
         # 字体
         try:
-            from font_utils import FontManager
+            from utils.font_utils import FontManager
             self.title_font = FontManager.get_font(48, bold=True)
             self.button_font = FontManager.get_font(24)
             self.info_font = FontManager.get_font(20)

@@ -8,7 +8,7 @@
 import pygame
 import sys
 from typing import Optional
-from level_selector import LevelSelector
+from level.level_selector import LevelSelector
 
 try:
     from font_utils import FontManager
@@ -40,7 +40,7 @@ class MainMenu:
         
         # 字体
         try:
-            from font_utils import FontManager
+            from utils.font_utils import FontManager
             self.title_font = FontManager.get_font(72, bold=True)
             self.button_font = FontManager.get_font(36)
             self.info_font = FontManager.get_font(24)
