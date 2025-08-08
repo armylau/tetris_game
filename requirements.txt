@@ -1,0 +1,19 @@
+# 俄罗斯方块游戏项目依赖
+
+# 核心游戏引擎
+pygame>=2.0.0
+
+# 开发工具（可选）
+pytest>=6.0.0
+pytest-cov>=2.10.0
+black>=21.0.0
+flake8>=3.8.0
+
+# 音频处理（如果需要额外音频功能）
+# pygame.mixer 已包含在pygame中
+
+# 数据序列化（用于保存游戏数据）
+# json 是Python标准库，无需额外安装
+
+# 配置文件处理
+# configparser 是Python标准库，无需额外安装
