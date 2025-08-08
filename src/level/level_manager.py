@@ -10,7 +10,7 @@ import time
 import json
 import os
 from typing import Dict, List, Optional, Tuple
-from level_config import LevelConfig
+from config.level_config import LevelConfig
 
 class LevelManager:
     """关卡管理器"""
