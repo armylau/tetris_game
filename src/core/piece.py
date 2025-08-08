@@ -5,7 +5,7 @@
 """
 
 from typing import List, Tuple
-from utils.constants import PIECE_SHAPES, PIECE_COLORS
+from src.utils.constants import PIECE_SHAPES, PIECE_COLORS
 
 
 class Piece:

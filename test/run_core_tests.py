@@ -8,9 +8,6 @@ import unittest
 import sys
 import os
 
-# 添加src目录到Python路径
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-
 # 导入所有测试模块
 from test_board import TestBoard
 from test_piece import TestPiece

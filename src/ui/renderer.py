@@ -6,11 +6,11 @@
 
 import pygame
 from typing import Tuple
-from core.board import Board
-from core.piece import Piece
-from core.game_state import GameState
-from config.game_config import GameConfig
-from utils.constants import BLACK, WHITE, GRAY, RED, GREEN, BLUE, YELLOW
+from src.core.board import Board
+from src.core.piece import Piece
+from src.core.game_state import GameState
+from src.config.game_config import GameConfig
+from src.utils.constants import BLACK, WHITE, GRAY, RED, GREEN, BLUE, YELLOW
 
 
 class Renderer:
@@ -19,34 +19,45 @@ class Renderer:
     def __init__(self, screen: pygame.Surface, config: GameConfig):
         self.screen = screen
         self.config = config
-        self.font_manager = None
         
-        # 尝试使用支持中文的字体
-        try:
-            from utils.font_utils import FontManager
-            self.font_manager = FontManager()
-            self.font = self.font_manager.get_font(36)
-            self.small_font = self.font_manager.get_font(24)
-        except ImportError:
-            # 回退到原来的字体加载方式
+        # 字体管理器 - 延迟加载
+        self._font_manager = None
+        self._font = None
+        self._small_font = None
+    
+    @property
+    def font_manager(self):
+        """延迟加载字体管理器"""
+        if self._font_manager is None:
             try:
-                # 在macOS上尝试使用系统字体
-                self.font = pygame.font.Font("/System/Library/AssetsV2/com_apple_MobileAsset_Font7/3419f2a427639ad8c8e139149a287865a90fa17e.asset/AssetData/PingFang.ttc", 36)
-                self.small_font = pygame.font.Font("/System/Library/AssetsV2/com_apple_MobileAsset_Font7/3419f2a427639ad8c8e139149a287865a90fa17e.asset/AssetData/PingFang.ttc", 24)
-            except:
-                try:
-                    # 尝试使用其他常见的中文字体
-                    self.font = pygame.font.Font("/System/Library/Fonts/STHeiti Light.ttc", 36)
-                    self.small_font = pygame.font.Font("/System/Library/Fonts/STHeiti Light.ttc", 24)
-                except:
-                    try:
-                        # 尝试使用Helvetica
-                        self.font = pygame.font.Font("/System/Library/Fonts/Helvetica.ttc", 36)
-                        self.small_font = pygame.font.Font("/System/Library/Fonts/Helvetica.ttc", 24)
-                    except:
-                        # 回退到默认字体
-                        self.font = pygame.font.Font(None, 36)
-                        self.small_font = pygame.font.Font(None, 24)
+                from src.utils.font_utils import FontManager
+                self._font_manager = FontManager()
+            except ImportError:
+                # 提供默认实现
+                self._font_manager = self._create_default_font_manager()
+        return self._font_manager
+    
+    @property
+    def font(self):
+        """延迟加载字体"""
+        if self._font is None:
+            self._font = self.font_manager.get_font(36)
+        return self._font
+    
+    @property
+    def small_font(self):
+        """延迟加载小字体"""
+        if self._small_font is None:
+            self._small_font = self.font_manager.get_font(24)
+        return self._small_font
+    
+    def _create_default_font_manager(self):
+        """创建默认字体管理器"""
+        class DefaultFontManager:
+            @staticmethod
+            def get_font(size, bold=False):
+                return pygame.font.Font(None, size)
+        return DefaultFontManager()
     
     def render_board(self, board: Board):
         """渲染游戏板"""

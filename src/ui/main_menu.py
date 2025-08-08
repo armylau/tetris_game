@@ -8,11 +8,11 @@
 import pygame
 import sys
 from typing import Optional
-from level.level_selector import LevelSelector
+from src.level.level_selector import LevelSelector
 
 # 字体管理器导入
 try:
-    from utils.font_utils import FontManager
+    from src.utils.font_utils import FontManager
 except ImportError:
     # 如果无法导入FontManager，使用简单的字体加载
     class FontManager:
@@ -131,6 +131,7 @@ class MainMenu:
         clock = pygame.time.Clock()
         
         while True:
+            # 确保在主线程中处理事件
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()

@@ -5,8 +5,8 @@
 """
 
 from typing import List, Tuple
-from core.piece import Piece
-from core.board import Board
+from src.core.piece import Piece
+from src.core.board import Board
 
 
 class CollisionDetector:

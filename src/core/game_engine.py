@@ -7,12 +7,12 @@
 import time
 import random
 from typing import Optional, List
-from core.board import Board
-from core.game_state import GameState
-from core.piece import Piece
-from core.collision import CollisionDetector
-from config.game_config import GameConfig
-from utils.constants import PIECE_SHAPES
+from src.core.board import Board
+from src.core.game_state import GameState
+from src.core.piece import Piece
+from src.core.collision import CollisionDetector
+from src.config.game_config import GameConfig
+from src.utils.constants import PIECE_SHAPES
 
 
 class GameEngine:
@@ -25,13 +25,8 @@ class GameEngine:
         self.collision_detector = CollisionDetector()
         self.last_drop_time = time.time()
         
-        # 关卡管理器
+        # 关卡管理器 - 通过依赖注入传入，避免循环导入
         self.level_manager = None
-        try:
-            from level.level_manager import LevelManager
-            self.level_manager = LevelManager()
-        except ImportError:
-            pass
     
     def spawn_new_piece(self):
         """生成新方块"""
@@ -61,6 +56,10 @@ class GameEngine:
         if self.game_state.paused or self.game_state.game_over:
             return False
         
+        # 检查是否有当前方块
+        if not self.game_state.current_piece:
+            return False
+        
         current_x, current_y = self.game_state.get_piece_position()
         new_x = current_x + dx
         new_y = current_y + dy
@@ -73,6 +72,10 @@ class GameEngine:
     def handle_piece_rotation(self) -> bool:
         """处理方块旋转"""
         if self.game_state.paused or self.game_state.game_over:
+            return False
+        
+        # 检查是否有当前方块
+        if not self.game_state.current_piece:
             return False
         
         # 检查旋转限制
@@ -159,6 +162,14 @@ class GameEngine:
             self.game_state.game_mode == "level" and
             self.level_manager.is_time_up()):
             self.game_state.level_failed = True
+            return
+        
+        # 只有在有当前方块时才进行更新
+        if not self.game_state.current_piece:
+            return
+        
+        # 只有在游戏模式设置后才进行更新
+        if self.game_state.game_mode not in ["classic", "level"]:
             return
         
         current_time = time.time()

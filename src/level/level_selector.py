@@ -8,12 +8,12 @@
 import pygame
 import sys
 from typing import Optional, Dict, List
-from level.level_manager import LevelManager
-from config.level_config import LevelConfig
+from src.level.level_manager import LevelManager
+from src.config.level_config import LevelConfig
 
 # 字体管理器导入
 try:
-    from utils.font_utils import FontManager
+    from src.utils.font_utils import FontManager
 except ImportError:
     # 如果无法导入FontManager，使用简单的字体加载
     class FontManager:

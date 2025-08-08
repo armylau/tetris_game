@@ -5,8 +5,8 @@
 """
 
 from typing import Optional, Tuple
-from core.piece import Piece
-from config.game_config import GameConfig
+from src.core.piece import Piece
+from src.config.game_config import GameConfig
 
 
 class GameState:

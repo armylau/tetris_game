@@ -5,7 +5,7 @@
 """
 
 from typing import List, Optional, Tuple
-from core.piece import Piece
+from src.core.piece import Piece
 
 
 class Board:
@@ -18,6 +18,10 @@ class Board:
     
     def is_valid_position(self, piece: Piece, x: int, y: int) -> bool:
         """检查位置是否有效"""
+        # 检查方块是否为None
+        if piece is None:
+            return False
+        
         for row in range(len(piece.shape)):
             for col in range(len(piece.shape[0])):
                 if piece.shape[row][col]:

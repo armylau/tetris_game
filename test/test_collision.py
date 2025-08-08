@@ -8,12 +8,9 @@ import unittest
 import sys
 import os
 
-# 添加src目录到Python路径
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-
-from core.collision import CollisionDetector
-from core.board import Board
-from core.piece import Piece
+from src.core.collision import CollisionDetector
+from src.core.board import Board
+from src.core.piece import Piece
 
 
 class TestCollisionDetector(unittest.TestCase):

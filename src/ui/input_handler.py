@@ -7,7 +7,7 @@
 import time
 import pygame
 from typing import List, Set
-from config.game_config import GameConfig
+from src.config.game_config import GameConfig
 
 
 class GameEvent:

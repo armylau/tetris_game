@@ -10,14 +10,11 @@ import os
 import time
 from unittest.mock import Mock, patch
 
-# 添加src目录到Python路径
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-
-from core.game_engine import GameEngine
-from core.board import Board
-from core.game_state import GameState
-from core.piece import Piece
-from config.game_config import GameConfig
+from src.core.game_engine import GameEngine
+from src.core.board import Board
+from src.core.game_state import GameState
+from src.core.piece import Piece
+from src.config.game_config import GameConfig
 
 
 class TestGameEngine(unittest.TestCase):

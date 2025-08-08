@@ -8,10 +8,10 @@
 import pygame
 import sys
 import time
-from config.game_config import GameConfig
-from core.game_engine import GameEngine
-from ui.renderer import Renderer
-from ui.input_handler import InputHandler
+from src.config.game_config import GameConfig
+from src.core.game_engine import GameEngine
+from src.ui.renderer import Renderer
+from src.ui.input_handler import InputHandler
 
 
 class TetrisGame:
@@ -32,8 +32,7 @@ class TetrisGame:
         self.running = True
         self.return_to_menu = False
         
-        # 初始化游戏
-        self.game_engine.spawn_new_piece()
+        # 不在这里初始化游戏，等待用户选择模式后再初始化
     
     def handle_input(self):
         """处理用户输入"""
@@ -103,36 +102,59 @@ class TetrisGame:
         
         # 返回是否应该回到主菜单
         return self.return_to_menu
+    
+    def start_game(self):
+        """开始游戏"""
+        self.game_engine.spawn_new_piece()
 
 
 def main():
     """主函数"""
+    print("开始启动游戏...")
     pygame.init()
     screen = pygame.display.set_mode((GameConfig.SCREEN_WIDTH, GameConfig.SCREEN_HEIGHT))
     pygame.display.set_caption("俄罗斯方块")
+    print("✓ 游戏窗口创建成功")
     
     try:
-        from ui.main_menu import MainMenu
-        from level.level_selector import LevelSelector
+        print("正在导入主菜单模块...")
+        from src.ui.main_menu import MainMenu
+        print("✓ 主菜单模块导入成功")
         
+        print("正在导入关卡选择器模块...")
+        from src.level.level_selector import LevelSelector
+        print("✓ 关卡选择器模块导入成功")
+        
+        print("开始主游戏循环...")
         while True:
+            print("显示主菜单...")
             # 显示主菜单
             menu = MainMenu(screen)
+            print("✓ 主菜单创建成功")
+            
+            print("等待用户选择...")
             choice = menu.run()
+            print(f"用户选择: {choice}")
             
             if choice == "quit":
+                print("用户选择退出")
                 break
             elif choice == "classic":
+                print("用户选择经典模式")
                 # 经典模式
                 game = TetrisGame()
                 game.game_engine.get_game_state().game_mode = "classic"
+                game.start_game()  # 开始游戏
                 should_return_to_menu = game.run()
                 if not should_return_to_menu:
+                    print("游戏结束，退出程序")
                     break  # 如果游戏没有要求返回菜单，则退出程序
             elif choice == "level":
+                print("用户选择关卡模式")
                 # 关卡模式
                 selector = LevelSelector(screen)
                 selected_level = selector.run()
+                print(f"选择的关卡: {selected_level}")
                 
                 if selected_level and selected_level > 0:
                     # 加载选中的关卡
@@ -141,23 +163,37 @@ def main():
                     
                     if game.game_engine.level_manager and game.game_engine.level_manager.load_level(selected_level):
                         game.game_engine.get_game_state().current_level_id = selected_level
+                        game.start_game()  # 开始游戏
                         should_return_to_menu = game.run()
                         if not should_return_to_menu:
+                            print("关卡游戏结束，退出程序")
                             break  # 如果游戏没有要求返回菜单，则退出程序
                     else:
                         print(f"无法加载关卡 {selected_level}")
                 elif selected_level == -1:
+                    print("用户返回主菜单")
                     # 返回主菜单
                     continue
                 else:
+                    print("用户退出游戏")
                     # 退出游戏
                     break
     except ImportError as e:
         print(f"导入模块失败: {e}")
+        import traceback
+        traceback.print_exc()
         # 回退到经典模式
+        print("回退到经典模式")
         game = TetrisGame()
+        game.game_engine.get_game_state().game_mode = "classic"
+        game.start_game()  # 开始游戏
         game.run()
+    except Exception as e:
+        print(f"游戏运行出错: {e}")
+        import traceback
+        traceback.print_exc()
     
+    print("游戏结束，正在退出...")
     pygame.quit()
     sys.exit()
 
