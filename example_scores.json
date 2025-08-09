@@ -1,0 +1,27 @@
+{
+  "score_history": [
+    {
+      "player_name": "玩家A",
+      "score": 300,
+      "game_mode": "classic",
+      "timestamp": "2025-08-09T13:59:39.557360",
+      "date": "2025-08-09 13:59:39"
+    },
+    {
+      "player_name": "玩家B",
+      "score": 500,
+      "game_mode": "level",
+      "timestamp": "2025-08-09T13:59:39.557723",
+      "date": "2025-08-09 13:59:39"
+    },
+    {
+      "player_name": "玩家C",
+      "score": 300,
+      "game_mode": "classic",
+      "timestamp": "2025-08-09T13:59:39.559253",
+      "date": "2025-08-09 13:59:39"
+    }
+  ],
+  "high_score": 500,
+  "last_updated": "2025-08-09T13:59:39.559269"
+}

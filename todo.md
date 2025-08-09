@@ -3,6 +3,8 @@
 ## v0.3betterUI 
 - bug - 字体导入问题修复
 - 使用双缓冲渲染
+- add score manager and doc
+
 - 优化图形绘制
 - 实现平滑动画
 

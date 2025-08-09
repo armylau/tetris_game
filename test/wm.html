@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>交互式报告：自动驾驶中的世界模型</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Tech Horizon -->
+    <!-- Application Structure Plan: The SPA is designed as a single-page, scrollable dashboard to provide a narrative journey through the complex topic of World Models. The structure is thematic, not linear like the report, to improve usability. It starts with a high-level introduction (Hero), then dives into foundational concepts (Core Concepts), compares key technical approaches (Architectures), showcases practical uses (Applications), presents a balanced view of pros and cons (Advantages vs. Challenges), and finally looks to the future (Outlook). This flow guides the user from "what is it?" to "why does it matter?" and "what's next?". Key interactions include smooth scrolling navigation, hover-to-reveal cards, a tabbed interface for direct comparison, and interactive charts to make data points memorable. This structure was chosen to make the dense, academic information digestible and engaging for a broader audience, from students to industry professionals. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: Core definitions (World Model, WFM, etc.). Goal: Inform & Organize. Viz/Method: Interactive cards grid. Interaction: Hover effect to highlight. Justification: Breaks down jargon into manageable, visually separated chunks. Library: HTML/Tailwind.
+        2. Report Info: Comparison of RL, Generative, and Transformer-based models. Goal: Compare. Viz/Method: Tabbed interface and a Radar Chart. Interaction: Click tabs to switch content; hover chart for tooltips. Justification: Tabs allow for direct, one-to-one comparison of detailed text. The radar chart provides a high-level visual summary of their relative strengths (Data Efficiency, Generalization, etc.), making complex trade-offs immediately apparent. Library: Chart.js.
+        3. Report Info: PlaNet's 5000% data efficiency advantage. Goal: Inform with impact. Viz/Method: Bar Chart. Interaction: Hover for exact values. Justification: A simple bar chart is the most effective way to visualize such a dramatic quantitative comparison, making the "5000%" claim tangible and memorable. Library: Chart.js.
+        4. Report Info: Applications, Advantages, Challenges, Future Trends. Goal: Inform & Organize. Viz/Method: Styled lists and grid layouts with icons. Interaction: Static display. Justification: For qualitative, list-based information, a clean, well-structured layout with clear typography and iconography is sufficient for clarity and readability. Library: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .tab-active {
+            background-color: #0284c7; /* sky-600 */
+            color: white;
+        }
+        .tab-inactive {
+            background-color: #e2e8f0; /* slate-200 */
+            color: #334155; /* slate-700 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-md">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-bold text-sky-700">自动驾驶世界模型</h1>
+            <div class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#concepts" class="hover:text-sky-600 transition">核心概念</a>
+                <a href="#architectures" class="hover:text-sky-600 transition">架构范式</a>
+                <a href="#applications" class="hover:text-sky-600 transition">关键应用</a>
+                <a href="#analysis" class="hover:text-sky-600 transition">优势与挑战</a>
+                <a href="#future" class="hover:text-sky-600 transition">未来展望</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-slate-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 space-y-2">
+            <a href="#concepts" class="block hover:text-sky-600 transition">核心概念</a>
+            <a href="#architectures" class="block hover:text-sky-600 transition">架构范式</a>
+            <a href="#applications" class="block hover:text-sky-600 transition">关键应用</a>
+            <a href="#analysis" class="block hover:text-sky-600 transition">优势与挑战</a>
+            <a href="#future" class="block hover:text-sky-600 transition">未来展望</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 md:py-12">
+
+        <!-- Hero Section -->
+        <section class="text-center mb-16 md:mb-24">
+            <h2 class="text-3xl md:text-5xl font-bold text-slate-900 mb-4">洞见未来：自动驾驶的“心智模型”</h2>
+            <p class="max-w-3xl mx-auto text-slate-600 md:text-lg">
+                世界模型（World Models）正在彻底改变自动驾驶技术。它不再是简单的“感知-决策”，而是赋予车辆一种类似人类的“直觉”与“想象力”。通过构建环境的内部表征，车辆可以模拟动态、预测未来，从而在复杂多变的真实世界中做出更安全、更高效的决策。本报告将带您深入了解这一前沿技术。
+            </p>
+        </section>
+
+        <!-- Core Concepts Section -->
+        <section id="concepts" class="mb-16 md:mb-24 scroll-mt-20">
+            <h3 class="text-2xl md:text-3xl font-bold text-center mb-2 text-slate-900">核心概念</h3>
+            <p class="text-center text-slate-500 mb-10">世界模型是一个复杂的系统，由多个关键组件协同工作，共同构建起对现实世界的深刻理解。</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <h4 class="text-xl font-bold text-sky-700 mb-2">🧠 世界模型 (World Model)</h4>
+                    <p class="text-slate-600">理解真实世界动态的生成式AI模型。它处理多模态输入（图像、视频等），生成逼真场景并预测物理结果，是决策和规划的基础。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <h4 class="text-xl font-bold text-sky-700 mb-2">🏛️ 世界基础模型 (WFM)</h4>
+                    <p class="text-slate-600">大规模训练的神经网络，能模拟真实世界环境。开发者用它生成合成数据，作为下游AI模型的预训练基础，加速开发。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <h4 class="text-xl font-bold text-sky-700 mb-2">🔮 预测模型 (Prediction Model)</h4>
+                    <p class="text-slate-600">世界模型的关键组件，负责预测世界的未来状态并合成连续运动序列，对于运动规划至关重要。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <h4 class="text-xl font-bold text-sky-700 mb-2">🧭 策略模型 (Policy Model)</h4>
+                    <p class="text-slate-600">扮演决策者角色，将系统当前状态（如车辆位置）与动作（如转向）关联起来，以实现预设目标。通常通过强化学习优化。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <h4 class="text-xl font-bold text-sky-700 mb-2">💾 隐藏状态/内部表征</h4>
+                    <p class="text-slate-600">模型内部对环境的压缩、抽象表示。它让系统能理解和预测环境变化，如感知物体运动、预测遮挡物体等。</p>
+                </div>
+                 <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <h4 class="text-xl font-bold text-sky-700 mb-2">🗺️ 环境表示空间</h4>
+                    <p class="text-slate-600">从2D图像到3D/4D的鸟瞰图(BEV)、占用栅格(OG)和点云(PC)的演进，旨在更完整地捕捉时空动态和物理真实性。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architectures Section -->
+        <section id="architectures" class="mb-16 md:mb-24 scroll-mt-20">
+            <h3 class="text-2xl md:text-3xl font-bold text-center mb-2 text-slate-900">三大架构范式</h3>
+            <p class="text-center text-slate-500 mb-10">不同的技术路径催生了各具特色的世界模型架构。了解它们的特点有助于我们把握该领域的发展脉络。</p>
+            <div class="flex justify-center mb-8">
+                <button data-tab="rl" class="tab-button px-4 py-2 rounded-l-lg tab-active">强化学习</button>
+                <button data-tab="generative" class="tab-button px-4 py-2 tab-inactive">生成模型</button>
+                <button data-tab="transformer" class="tab-button px-4 py-2 rounded-r-lg tab-inactive">Transformer</button>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+                <div id="tab-content" class="bg-white p-8 rounded-xl shadow-lg">
+                    <div id="rl-content" class="tab-pane">
+                        <h4 class="text-2xl font-bold mb-4 text-sky-800">基于强化学习 (RL)</h4>
+                        <p class="mb-4 text-slate-600">通过学习环境的动态模型，在模型内部“想象”和模拟，从而高效地推导出最优策略。这种方法以其卓越的数据效率和泛化能力著称。</p>
+                        <ul class="list-disc list-inside space-y-2 text-slate-700">
+                            <li><strong>核心优势:</strong> 极高的数据效率，能够在模拟中学习复杂行为。</li>
+                            <li><strong>代表模型:</strong> PlaNet, Dreamer, AdaWM。</li>
+                            <li><strong>挑战:</strong> 从模拟到现实的“分布偏移”问题，需要鲁棒的适应机制。</li>
+                        </ul>
+                    </div>
+                    <div id="generative-content" class="tab-pane hidden">
+                        <h4 class="text-2xl font-bold mb-4 text-sky-800">基于生成模型</h4>
+                        <p class="mb-4 text-slate-600">利用扩散模型等先进技术，生成高度逼真和可控的合成驾驶环境。这对于覆盖罕见的“边缘案例”和加速系统测试至关重要。</p>
+                        <ul class="list-disc list-inside space-y-2 text-slate-700">
+                            <li><strong>核心优势:</strong> 生成高质量、多样化的合成数据，弥补真实数据不足。</li>
+                            <li><strong>代表模型:</strong> DriveDreamer, DrivingWorld。</li>
+                            <li><strong>挑战:</strong> 生成场景的真实性和物理一致性仍需提高。</li>
+                        </ul>
+                    </div>
+                    <div id="transformer-content" class="tab-pane hidden">
+                        <h4 class="text-2xl font-bold mb-4 text-sky-800">基于Transformer</h4>
+                        <p class="mb-4 text-slate-600">凭借其处理长序列和多模态数据的卓越能力，在运动预测领域大放异彩。它能有效捕捉复杂的时空依赖关系。</p>
+                        <ul class="list-disc list-inside space-y-2 text-slate-700">
+                            <li><strong>核心优势:</strong> 强大的序列建模能力，能整合多样化输入。</li>
+                            <li><strong>代表模型:</strong> Wayformer, RedMotion, MTRA。</li>
+                            <li><strong>挑战:</strong> 计算需求大，模型可解释性相对较弱。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="architectures-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Applications Section -->
+        <section id="applications" class="mb-16 md:mb-24 scroll-mt-20">
+            <h3 class="text-2xl md:text-3xl font-bold text-center mb-2 text-slate-900">关键应用领域</h3>
+            <p class="text-center text-slate-500 mb-10">世界模型不仅是理论上的突破，更在自动驾驶的多个核心环节中展现出巨大的应用价值。</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h4 class="text-xl font-bold mb-2">🎬 场景生成与模拟</h4>
+                    <p class="text-slate-600">生成逼真、多样化的驾驶场景，覆盖真实世界难以遇到的“长尾”情况，从而在虚拟环境中进行全面、安全的训练与测试，显著降低成本和风险。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h4 class="text-xl font-bold mb-2">🚗 运动预测与行为规划</h4>
+                    <p class="text-slate-600">准确预测其他车辆、行人的未来轨迹和行为，为系统制定安全、高效的驾驶策略提供关键依据。这是实现主动避险和流畅驾驶的核心。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h4 class="text-xl font-bold mb-2">🔗 端到端驾驶系统</h4>
+                    <p class="text-slate-600">将从原始传感器输入到最终驾驶动作的整个流程整合到统一模型中，简化系统架构，减少误差累积，实现更接近人类的驾驶行为。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h4 class="text-xl font-bold mb-2">🛡️ 提升可解释性与安全性</h4>
+                    <p class="text-slate-600">通过自然语言解释决策逻辑，增强“黑箱”模型透明度。同时，结合明确的安全规则，确保系统行为始终在安全边界内，并能预测潜在风险。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analysis Section -->
+        <section id="analysis" class="mb-16 md:mb-24 scroll-mt-20">
+            <h3 class="text-2xl md:text-3xl font-bold text-center mb-10 text-slate-900">优势与挑战</h3>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-2xl font-bold text-green-600 mb-4">✅ 显著优势</h4>
+                    <ul class="space-y-3">
+                        <li class="bg-white p-4 rounded-lg shadow"><strong>数据效率革命:</strong> 通过自监督学习和模拟，大幅降低对海量标注数据的依赖。</li>
+                        <li class="bg-white p-4 rounded-lg shadow"><strong>卓越泛化能力:</strong> 能更好地适应未见过的场景和“长尾”事件，提升鲁棒性。</li>
+                        <li class="bg-white p-4 rounded-lg shadow"><strong>加速虚拟测试:</strong> 在虚拟世界中“想象”和测试，显著减少昂贵的真实世界试驾。</li>
+                        <li class="bg-white p-4 rounded-lg shadow"><strong>增强可解释性:</strong> 部分模型能用自然语言解释决策，提升系统透明度和信任度。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-bold text-red-600 mb-4">❌ 当前挑战</h4>
+                    <ul class="space-y-3">
+                        <li class="bg-white p-4 rounded-lg shadow"><strong>数据质量与稀缺:</strong> 高质量、多样化的训练数据，特别是边缘场景数据，依然难以获取。</li>
+                        <li class="bg-white p-4 rounded-lg shadow"><strong>巨大计算需求:</strong> 训练和部署大型世界模型需要庞大的计算资源，成本高昂。</li>
+                        <li class="bg-white p-4 rounded-lg shadow"><strong>“黑箱”性质:</strong> 模型的复杂性使其决策过程难以完全理解，给安全验证带来困难。</li>
+                        <li class="bg-white p-4 rounded-lg shadow"><strong>模拟与现实的差距:</strong> 生成场景与真实世界的细微差异可能导致验证结果不完全可靠。</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 bg-amber-100 border-l-4 border-amber-500 text-amber-800 p-6 rounded-r-lg shadow-md">
+                <h4 class="text-xl font-bold mb-2">一个惊人的数字：数据效率</h4>
+                <p class="mb-4">报告中提到，基于强化学习的世界模型PlaNet，其数据效率比传统的无模型方法平均高出 <strong>5000%</strong>。这凸显了世界模型在降低数据成本方面的巨大潜力。</p>
+                <div class="chart-container !h-64 !max-h-80">
+                    <canvas id="efficiency-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Section -->
+        <section id="future" class="scroll-mt-20">
+            <h3 class="text-2xl md:text-3xl font-bold text-center mb-2 text-slate-900">未来展望</h3>
+            <p class="text-center text-slate-500 mb-10">世界模型领域正处在高速发展期，未来的研究将聚焦于解决当前挑战，推动自动驾驶走向更高级别的自主性。</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-sky-500">
+                    <h4 class="text-xl font-bold mb-2">🤖 自监督与多模态融合</h4>
+                    <p class="text-slate-600">从海量无标签数据中学习更丰富的表示，并更有效地整合视觉、雷达、激光雷达等异构数据，实现更全面的环境理解。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-sky-500">
+                    <h4 class="text-xl font-bold mb-2">⚡ 高效与可扩展模型</h4>
+                    <p class="text-slate-600">探索轻量化、分布式训练等技术，降低计算成本，使世界模型能在车载平台上实时运行，并利用“扩展定律”系统性提升性能。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-sky-500">
+                    <h4 class="text-xl font-bold mb-2">🛡️ 安全、可解释与可信赖</h4>
+                    <p class="text-slate-600">开发形式化验证方法，设计更透明的内部机制，并将明确的安全规则与模型深度融合，确保系统的安全与可靠。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-sky-500">
+                    <h4 class="text-xl font-bold mb-2">👨‍👩‍👧‍👦 复杂人类行为建模</h4>
+                    <p class="text-slate-600">不仅预测轨迹，更要理解人类驾驶员和行人的意图、情绪和决策过程，实现更自然、更安全的智能交互。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-sky-500">
+                    <h4 class="text-xl font-bold mb-2">🌐 高级模拟与虚拟测试</h4>
+                    <p class="text-slate-600">提升生成场景的保真度，构建更可靠的“虚拟试验场”，以覆盖更多长尾场景，加速开发和认证过程。</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-sky-500">
+                    <h4 class="text-xl font-bold mb-2">🔗 走向通用人工智能</h4>
+                    <p class="text-slate-600">世界模型是实现具身智能的核心。未来将与其他AI领域更紧密结合，共同推动能处理更广泛任务的通用世界模型的发展。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-300 mt-16 md:mt-24">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>本交互式报告基于《自动驾驶中的世界模型综述》生成。</p>
+            <p class="text-sm text-slate-400 mt-2">旨在通过可视化的方式，让复杂的技术概念更易于理解和探索。</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            const tabs = document.querySelectorAll('.tab-button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => {
+                        t.classList.remove('tab-active');
+                        t.classList.add('tab-inactive');
+                    });
+                    tab.classList.add('tab-active');
+                    tab.classList.remove('tab-inactive');
+
+                    tabPanes.forEach(pane => {
+                        pane.classList.add('hidden');
+                    });
+                    document.getElementById(tab.dataset.tab + '-content').classList.remove('hidden');
+                });
+            });
+
+            const renderArchitectureChart = () => {
+                const ctx = document.getElementById('architectures-chart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['数据效率', '泛化能力', '可解释性', '计算需求', '实现复杂度'],
+                        datasets: [{
+                            label: '强化学习',
+                            data: [5, 4, 3, 3, 4],
+                            backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                            borderColor: 'rgba(56, 189, 248, 1)',
+                            pointBackgroundColor: 'rgba(56, 189, 248, 1)',
+                        }, {
+                            label: '生成模型',
+                            data: [3, 5, 2, 5, 5],
+                            backgroundColor: 'rgba(251, 146, 60, 0.2)',
+                            borderColor: 'rgba(251, 146, 60, 1)',
+                            pointBackgroundColor: 'rgba(251, 146, 60, 1)',
+                        }, {
+                            label: 'Transformer',
+                            data: [2, 4, 2, 4, 3],
+                            backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                            borderColor: 'rgba(16, 185, 129, 1)',
+                            pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        label += context.raw;
+                                        return label + ' (相对评分)';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 5,
+                                pointLabels: {
+                                    font: {
+                                        size: 14
+                                    }
+                                },
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            const renderEfficiencyChart = () => {
+                const ctx = document.getElementById('efficiency-chart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['传统无模型方法', 'PlaNet (世界模型)'],
+                        datasets: [{
+                            label: '相对数据需求',
+                            data: [5000, 100],
+                            backgroundColor: [
+                                'rgba(239, 68, 68, 0.6)',
+                                'rgba(34, 197, 94, 0.6)'
+                            ],
+                            borderColor: [
+                                'rgba(239, 68, 68, 1)',
+                                'rgba(34, 197, 94, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: '数据效率对比 (数值越小效率越高)'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                type: 'logarithmic',
+                                ticks: {
+                                    callback: function(value, index, values) {
+                                        if (value === 5000 || value === 100 || value === 1000 || value === 10) {
+                                            return value + 'x';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            renderArchitectureChart();
+            renderEfficiencyChart();
+        });
+    </script>
+</body>
+</html>

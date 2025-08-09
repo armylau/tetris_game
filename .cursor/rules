@@ -1,0 +1,26 @@
+// 1. 代码注释要清晰，尤其是复杂逻辑和关键流程，建议中英文结合，便于团队成员理解。
+// 2. 命名规范统一，类名用大驼峰，函数/变量用小写加下划线，常量全大写。
+// 3. 保持函数单一职责，避免函数过长，推荐每个函数不超过50行。
+// 4. 资源（如颜色、尺寸等）统一配置，避免魔法数字散落代码。
+// 5. 渲染、逻辑、数据分层清晰，UI渲染与游戏逻辑解耦。
+// 6. 性能测试要有详细统计，渲染帧率、耗时等需可追踪。
+// 7. 事件处理要健壮，防止死循环或未处理的退出事件。
+// 8. 代码提交前自测，确保主流程无异常，测试数据可复用。
+// 9. 代码风格遵循PEP8，缩进、空行、注释等保持一致。
+// 10. 重要变更需在rules文件中同步更新，便于团队协作。
+
+## Python 编码风格和实践 
+As a Python programmer, you must adhere to PEP 8 style guide.
+When writing new functions or classes, always include a concise docstring explaining its purpose, arguments, and return values.
+Use f-strings for string formatting.
+Add type hints to all function parameters and return values.
+
+## 代码注释
+When writing new functions or classes, always include a concise docstring explaining its purpose, arguments, and return values.
+
+
+## 代码性能优化
+When writing new functions or classes, always include a concise docstring explaining its purpose, arguments, and return values.
+
+
+
