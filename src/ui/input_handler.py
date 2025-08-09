@@ -66,6 +66,10 @@ class InputHandler:
                     events.append(GameEvent("reset_game"))
                 elif event.key == pygame.K_ESCAPE:
                     events.append(GameEvent("return_to_menu"))
+                elif event.key == pygame.K_F3:
+                    events.append(GameEvent("toggle_performance"))
+                elif event.key == pygame.K_F4:
+                    events.append(GameEvent("export_performance"))
             
             elif event.type == pygame.KEYUP:
                 self.keys_pressed.discard(event.key)

@@ -154,6 +154,24 @@ class LevelManager:
         """记录旋转次数"""
         self.rotation_count += 1
     
+    def update(self, delta_time: float):
+        """更新关卡管理器状态"""
+        # 这里可以添加关卡相关的更新逻辑
+        # 比如时间限制检查、特殊规则更新等
+        pass
+    
+    def check_level_failed(self) -> bool:
+        """检查关卡是否失败"""
+        # 检查时间限制
+        if self.time_limit and self.start_time:
+            elapsed_time = time.time() - self.start_time
+            if elapsed_time > self.time_limit:
+                return True
+        
+        # 这里可以添加其他失败条件
+        # 比如旋转次数限制、特殊规则违反等
+        return False
+    
     def get_time_remaining(self) -> Optional[int]:
         """获取剩余时间（秒）"""
         if not self.time_limit or not self.start_time:
